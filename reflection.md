@@ -28,10 +28,10 @@ The **Owner** class stores the pet owner's information and manages one or more p
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+
 ### 1b. Design Changes
 
-
-After reviewing the UML diagram and Python class skeleton with AI assistance, I kept the overall design simple because it already satisfied the project requirements. I included **duration** and **priority** as attributes of the **Task** class because the project requirements specify that scheduling decisions should consider both. I also added **available_minutes** to the **Scheduler** class so future scheduling logic can account for the owner's available time when generating a daily plan.
+After reviewing the UML diagram and Python class skeleton with AI assistance, I determined that the overall design already satisfied the project requirements. The AI review suggested considering additional relationships, such as linking the Owner to the Scheduler, and future enhancements such as task validation and conflict checking. However, I chose to keep the design simple because these additions were not required for Phase 1 and would introduce unnecessary complexity. I retained the Task attributes for duration and priority and the Scheduler attribute for available_minutes because they directly support the scheduling requirements described in the project.
 
 ### Three Core User Actions
 
