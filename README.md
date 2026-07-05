@@ -44,14 +44,15 @@ pip install -r requirements.txt
 
 ## 🖥️ Sample Output
 
-Paste a sample of your app's CLI or Streamlit output here so a reader can see what a generated plan looks like:
+```text
+Today's Schedule for Blessing
+-----------------------------------
+08:00 — Morning walk (30 min) [priority: 5]
+09:00 — Breakfast feeding (10 min) [priority: 5]
+09:00 — Give medication (5 min) [priority: 4]
 
-```
-# e.g.:
-# Daily plan for Biscuit (Golden Retriever):
-#   08:00 — Morning walk (30 min) [priority: high]
-#   09:00 — Feeding (10 min) [priority: high]
-#   ...
+Conflicts:
+Conflict: Give medication and Breakfast feeding are both scheduled at 09:00.
 ```
 
 ## 🧪 Testing PawPal+
@@ -66,29 +67,32 @@ pytest --cov
 
 Sample test output:
 
-```
-# Paste your pytest output here
+```text
+platform win32 -- Python 3.13.1, pytest-9.1.1
+collected 2 items
+
+tests\test_pawpal.py ..
+
+==================== 2 passed in 0.05s ====================
 ```
 
 ## 📐 Smarter Scheduling
 
-> Fill in once you've implemented scheduling logic.
-
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `sort_tasks_by_priority()` | Sorts tasks from highest to lowest priority. |
+| Filtering | `generate_daily_plan()` | Selects tasks that fit within the available time. |
+| Conflict handling | `detect_conflicts()` | Detects tasks scheduled for the same time. |
+| Recurring tasks | `frequency` attribute | Supports daily recurrence and can be extended to weekly or monthly schedules. |
 
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Enter the pet owner information.
+2. Add two pets and assign care tasks with different priorities and times.
+3. Run `main.py` to generate a daily schedule.
+4. View the prioritized schedule and any detected task conflicts.
+5. Verify the backend logic by running the automated pytest test suite.
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
