@@ -6,11 +6,38 @@
 
 - Briefly describe your initial UML design.
 - What classes did you include, and what responsibilities did you assign to each?
+### 1a. Initial Design
+
+### 1a. Initial Design
+
+I designed PawPal+ using four main classes: **Owner**, **Pet**, **Task**, and **Scheduler**.
+
+The **Owner** class stores the pet owner's information and manages one or more pets. The **Pet** class stores pet details and maintains a list of care tasks. The **Task** class represents activities such as feeding, walking, medication, grooming, and enrichment, along with their duration and priority. The **Scheduler** class organizes tasks into a daily care plan by considering priorities and available time. This modular design assigns a single responsibility to each class, making the system easier to maintain and extend.
+
+### Building Blocks
+
+| Class | Key Attributes | Key Methods |
+|--------|----------------|-------------|
+| Owner | name, preferences, pets | add_pet(), get_pets() |
+| Pet | name, species, breed, age, tasks | add_task(), get_tasks() |
+| Task | name, duration, priority, completed | mark_complete(), is_high_priority() |
+| Scheduler | available_minutes, tasks | sort_tasks_by_priority(), generate_daily_plan() |
+
 
 **b. Design changes**
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+### 1b. Design Changes
+
+
+After reviewing the UML diagram and Python class skeleton with AI assistance, I kept the overall design simple because it already satisfied the project requirements. I included **duration** and **priority** as attributes of the **Task** class because the project requirements specify that scheduling decisions should consider both. I also added **available_minutes** to the **Scheduler** class so future scheduling logic can account for the owner's available time when generating a daily plan.
+
+### Three Core User Actions
+
+1. Enter owner and pet information.
+2. Add or edit pet care tasks with duration and priority.
+3. Generate and view a daily care plan based on available time, priority, and constraints.
 
 ---
 
