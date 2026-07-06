@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from datetime import date, timedelta
 from typing import List
 
 
@@ -13,6 +14,8 @@ class Task:
     time: str = "Anytime"
     frequency: str = "daily"
     completed: bool = False
+    due_date: date = field(default_factory=date.today)
+    pet_name: str = "Unknown"
 
     def mark_complete(self) -> None:
         """Mark the task as completed."""
@@ -21,6 +24,26 @@ class Task:
     def is_high_priority(self) -> bool:
         """Return True if the task is high priority."""
         return self.priority >= 4
+
+    def create_next_occurrence(self):
+        """Create the next recurring task based on frequency."""
+        if self.frequency == "daily":
+            next_date = self.due_date + timedelta(days=1)
+        elif self.frequency == "weekly":
+            next_date = self.due_date + timedelta(weeks=1)
+        else:
+            return None
+
+        return Task(
+            name=self.name,
+            category=self.category,
+            duration_minutes=self.duration_minutes,
+            priority=self.priority,
+            time=self.time,
+            frequency=self.frequency,
+            due_date=next_date,
+            pet_name=self.pet_name,
+        )
 
 
 @dataclass
@@ -80,6 +103,31 @@ class Scheduler:
     def sort_tasks_by_priority(self) -> List[Task]:
         """Sort tasks from highest to lowest priority."""
         return sorted(self.tasks, key=lambda task: task.priority, reverse=True)
+    
+    def sort_by_time(self) -> List[Task]:
+        """Sort tasks by scheduled time."""
+        return sorted(
+            self.tasks,
+            key=lambda task: task.time if task.time != "Anytime" else "99:99"
+        )
+
+    def filter_by_completion(self, completed: bool = False) -> List[Task]:
+        """Filter tasks by completion status."""
+        return [task for task in self.tasks if task.completed == completed]
+
+    def filter_by_pet(self, pet_name: str) -> List[Task]:
+        """Filter tasks by pet name."""
+        return [
+            task for task in self.tasks
+            if task.pet_name.lower() == pet_name.lower()
+        ]
+
+    def complete_task_and_recur(self, task: Task) -> None:
+        """Mark a task complete and add its next recurring occurrence."""
+        task.mark_complete()
+        next_task = task.create_next_occurrence()
+        if next_task:
+            self.add_task(next_task)
 
     def generate_daily_plan(self) -> List[Task]:
         """Generate a plan that fits within the available time."""

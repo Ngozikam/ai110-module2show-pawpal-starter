@@ -16,6 +16,8 @@ def main():
         duration_minutes=30,
         priority=5,
         time="08:00",
+        frequency="daily",
+        pet_name="Biscuit",
     )
 
     feeding = Task(
@@ -24,6 +26,8 @@ def main():
         duration_minutes=10,
         priority=5,
         time="09:00",
+        frequency="daily",
+        pet_name="Biscuit",
     )
 
     grooming = Task(
@@ -32,6 +36,8 @@ def main():
         duration_minutes=20,
         priority=3,
         time="11:00",
+        frequency="weekly",
+        pet_name="Luna",
     )
 
     medication = Task(
@@ -40,6 +46,8 @@ def main():
         duration_minutes=5,
         priority=4,
         time="09:00",
+        frequency="daily",
+        pet_name="Luna",
     )
 
     dog.add_task(walk)
@@ -47,25 +55,44 @@ def main():
     cat.add_task(grooming)
     cat.add_task(medication)
 
-    scheduler = Scheduler(available_minutes=45)
+    scheduler = Scheduler(available_minutes=75)
 
     for task in owner.get_all_tasks():
         scheduler.add_task(task)
 
-    daily_plan = scheduler.generate_daily_plan()
-    conflicts = scheduler.detect_conflicts()
-
-    print(f"Today's Schedule for {owner.name}")
+    print("Tasks Sorted by Time")
     print("-" * 35)
+    for task in scheduler.sort_by_time():
+        print(f"{task.time} — {task.name} ({task.pet_name})")
 
-    for task in daily_plan:
+    print("\nIncomplete Tasks")
+    print("-" * 35)
+    for task in scheduler.filter_by_completion(completed=False):
+        print(f"{task.name} [{task.completed}]")
+
+    print("\nTasks for Biscuit")
+    print("-" * 35)
+    for task in scheduler.filter_by_pet("Biscuit"):
+        print(task.name)
+
+    print("\nToday's Schedule")
+    print("-" * 35)
+    for task in scheduler.generate_daily_plan():
         print(
             f"{task.time} — {task.name} "
             f"({task.duration_minutes} min) "
             f"[priority: {task.priority}]"
         )
 
-    print("\nConflicts:")
+    print("\nRecurring Task Demo")
+    print("-" * 35)
+    scheduler.complete_task_and_recur(walk)
+    print(f"Completed: {walk.name} = {walk.completed}")
+    print(f"Total tasks after recurrence: {len(scheduler.tasks)}")
+
+    print("\nConflicts")
+    print("-" * 35)
+    conflicts = scheduler.detect_conflicts()
     if conflicts:
         for conflict in conflicts:
             print(conflict)

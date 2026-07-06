@@ -48,11 +48,14 @@ After reviewing the UML diagram and Python class skeleton with AI assistance, I 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
 - How did you decide which constraints mattered most?
 
+The scheduler considers task priority, available time, completion status, pet name, task frequency, and scheduled time. Priority and available time matter most because the daily plan should select the most important tasks that fit into the owner's available schedule.
+
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
 
+One tradeoff my scheduler makes is that it detects conflicts only when two tasks are scheduled for the exact same start time. It does not yet detect overlapping task durations (for example, a task from 09:00–09:30 overlapping one from 09:15–09:45). This approach keeps the implementation simple and efficient while satisfying the current project requirements.
 ---
 
 ## 3. AI Collaboration

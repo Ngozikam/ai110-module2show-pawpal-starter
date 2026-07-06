@@ -80,10 +80,10 @@ tests\test_pawpal.py ..
 
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | `sort_tasks_by_priority()` | Sorts tasks from highest to lowest priority. |
-| Filtering | `generate_daily_plan()` | Selects tasks that fit within the available time. |
-| Conflict handling | `detect_conflicts()` | Detects tasks scheduled for the same time. |
-| Recurring tasks | `frequency` attribute | Supports daily recurrence and can be extended to weekly or monthly schedules. |
+| Task sorting | `sort_tasks_by_priority()`, `sort_by_time()` | Sorts tasks by priority and scheduled time. |
+| Filtering | `filter_by_completion()`, `filter_by_pet()` | Filters tasks by completion status or pet name. |
+| Conflict handling | `detect_conflicts()` | Detects tasks scheduled for the same exact time. |
+| Recurring tasks | `create_next_occurrence()`, `complete_task_and_recur()` | Creates the next daily or weekly task after completion. |
 
 ## 📸 Demo Walkthrough
 
