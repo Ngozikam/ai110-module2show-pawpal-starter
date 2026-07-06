@@ -1,0 +1,169 @@
+# PawPal+ Final UML Diagram
+# PawPal+ Final UML Diagram
+
+```mermaid
+classDiagram
+
+class Owner {
+    +String name
+    +String preferences
+    +List~Pet~ pets
+    +add_pet(pet)
+    +get_pets()
+    +get_all_tasks()
+}
+
+class Pet {
+    +String name
+    +String species
+    +String breed
+    +int age
+    +List~Task~ tasks
+    +add_task(task)
+    +get_tasks()
+}
+
+class Task {
+    +String name
+    +String category
+    +int duration_minutes
+    +int priority
+    +String time
+    +String frequency
+    +bool completed
+    +date due_date
+    +String pet_name
+    +mark_complete()
+    +is_high_priority()
+    +create_next_occurrence()
+}
+
+class Scheduler {
+    +int available_minutes
+    +List~Task~ tasks
+    +add_task(task)
+    +sort_tasks_by_priority()
+    +sort_by_time()
+    +filter_by_completion(completed)
+    +filter_by_pet(pet_name)
+    +complete_task_and_recur(task)
+    +generate_daily_plan()
+    +detect_conflicts()
+}
+
+Owner "1" --> "*" Pet : owns
+Pet "1" --> "*" Task : has
+Scheduler "1" --> "*" Task : organizes
+Task "1" --> "0..1" Task : creates next occurrence
+```
+```mermaid
+classDiagram
+
+class Owner {
+    +String name
+    +String preferences
+    +List~Pet~ pets
+    +add_pet(pet)
+    +get_pets()
+    +get_all_tasks()
+}
+
+class Pet {
+    +String name
+    +String species
+    +String breed
+    +int age
+    +List~Task~ tasks
+    +add_task(task)
+    +get_tasks()
+}
+
+class Task {
+    +String name
+    +String category
+    +int duration_minutes
+    +int priority
+    +String time
+    +String frequency
+    +bool completed
+    +date due_date
+    +String pet_name
+    +mark_complete()
+    +is_high_priority()
+    +create_next_occurrence()
+}
+
+class Scheduler {
+    +int available_minutes
+    +List~Task~ tasks
+    +add_task(task)
+    +sort_tasks_by_priority()
+    +sort_by_time()
+    +filter_by_completion(completed)
+    +filter_by_pet(pet_name)
+    +complete_task_and_recur(task)
+    +generate_daily_plan()
+    +detect_conflicts()
+}
+
+Owner "1" --> "*" Pet : owns
+Pet "1" --> "*" Task : has
+Scheduler "1" --> "*" Task : organizes
+Task "1" --> "0..1" Task : creates next occurrence
+```# PawPal+ Final UML Diagram
+
+```mermaid
+classDiagram
+
+class Owner {
+    +String name
+    +String preferences
+    +List~Pet~ pets
+    +add_pet(pet)
+    +get_pets()
+    +get_all_tasks()
+}
+
+class Pet {
+    +String name
+    +String species
+    +String breed
+    +int age
+    +List~Task~ tasks
+    +add_task(task)
+    +get_tasks()
+}
+
+class Task {
+    +String name
+    +String category
+    +int duration_minutes
+    +int priority
+    +String time
+    +String frequency
+    +bool completed
+    +date due_date
+    +String pet_name
+    +mark_complete()
+    +is_high_priority()
+    +create_next_occurrence()
+}
+
+class Scheduler {
+    +int available_minutes
+    +List~Task~ tasks
+    +add_task(task)
+    +sort_tasks_by_priority()
+    +sort_by_time()
+    +filter_by_completion(completed)
+    +filter_by_pet(pet_name)
+    +complete_task_and_recur(task)
+    +generate_daily_plan()
+    +detect_conflicts()
+}
+
+Owner "1" --> "*" Pet : owns
+Pet "1" --> "*" Task : has
+Scheduler "1" --> "*" Task : organizes
+Task "1" --> "0..1" Task : creates next occurrence
+```

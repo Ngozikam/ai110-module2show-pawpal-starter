@@ -2,18 +2,24 @@ import streamlit as st
 
 from pawpal_system import Owner, Pet, Task, Scheduler
 
-st.set_page_config(page_title="PawPal+", page_icon="🐾", layout="centered")
+
+st.set_page_config(
+    page_title="PawPal+",
+    page_icon="🐾",
+    layout="centered"
+)
 
 st.title("🐾 PawPal+")
 
 st.markdown(
     """
-Welcome to the PawPal+ starter app.
+Welcome to **PawPal+**, a pet care planning assistant.
 
-This file is intentionally thin. It gives you a working Streamlit app so you can start quickly,
-but **it does not implement the project logic**. Your job is to design the system and build it.
+PawPal+ helps pet owners organize care tasks, prioritize important activities,
+generate a daily schedule based on available time, and identify scheduling conflicts.
 
-Use this app as your interactive demo once your backend classes/functions exist.
+Enter your owner and pet information, add care tasks, and generate a personalized
+daily care schedule.
 """
 )
 
@@ -23,24 +29,29 @@ with st.expander("Scenario", expanded=True):
 **PawPal+** is a pet care planning assistant. It helps a pet owner plan care tasks
 for their pet(s) based on constraints like time, priority, and preferences.
 
-You will design and implement the scheduling logic and connect it to this Streamlit UI.
+The system uses scheduling logic to organize tasks, prioritize activities,
+filter tasks, and identify scheduling conflicts.
 """
     )
 
-with st.expander("What you need to build", expanded=True):
+with st.expander("What PawPal+ Can Do", expanded=True):
     st.markdown(
         """
-At minimum, your system should:
-- Represent pet care tasks (what needs to happen, how long it takes, priority)
-- Represent the pet and the owner (basic info and preferences)
-- Build a plan/schedule for a day that chooses and orders tasks based on constraints
-- Explain the plan (why each task was chosen and when it happens)
+PawPal+ can:
+
+- Represent pet care tasks and their duration and priority
+- Store pet and owner information
+- Generate a daily schedule based on available time
+- Prioritize important pet care tasks
+- Sort tasks by scheduled time
+- Filter incomplete tasks
+- Detect scheduling conflicts
 """
     )
 
 st.divider()
 
-st.subheader("Quick Demo Inputs (UI only)")
+st.subheader("Owner and Pet Information")
 
 owner_name = st.text_input("Owner name", value="Jordan")
 pet_name = st.text_input("Pet name", value="Mochi")
@@ -57,7 +68,7 @@ if "owner" not in st.session_state:
 st.session_state.owner.name = owner_name
 
 st.markdown("### Tasks")
-st.caption("Add a few tasks. In your final version, these should feed into your scheduler.")
+st.caption("Add pet care tasks with different durations and priorities.")
 
 if "tasks" not in st.session_state:
     st.session_state.tasks = []
@@ -65,7 +76,10 @@ if "tasks" not in st.session_state:
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    task_title = st.text_input("Task title", value="Morning walk")
+    task_title = st.text_input(
+        "Task title",
+        value="Morning walk"
+    )
 
 with col2:
     duration = st.number_input(
@@ -149,15 +163,53 @@ if st.button("Generate schedule"):
 
     st.success("Today's Schedule")
 
-    for task in plan:
-        st.write(
-            f"• {task.name} ({task.duration_minutes} min) "
-            f"- Priority {task.priority}"
-        )
+    if plan:
+        schedule_rows = [
+            {
+                "Task": task.name,
+                "Duration": task.duration_minutes,
+                "Priority": task.priority,
+                "Time": task.time,
+                "Pet": task.pet_name,
+            }
+            for task in plan
+        ]
+
+        st.table(schedule_rows)
+
+    else:
+        st.info("No tasks available to schedule.")
+
+    st.markdown("### Tasks Sorted by Time")
+
+    sorted_rows = [
+        {
+            "Task": task.name,
+            "Time": task.time,
+            "Priority": task.priority,
+        }
+        for task in scheduler.sort_by_time()
+    ]
+
+    st.table(sorted_rows)
+
+    st.markdown("### Incomplete Tasks")
+
+    incomplete_rows = [
+        {
+            "Task": task.name,
+            "Completed": task.completed,
+        }
+        for task in scheduler.filter_by_completion(completed=False)
+    ]
+
+    st.table(incomplete_rows)
 
     if conflicts:
         st.warning("Conflicts Detected")
+
         for conflict in conflicts:
             st.write(conflict)
+
     else:
         st.success("No scheduling conflicts detected.")

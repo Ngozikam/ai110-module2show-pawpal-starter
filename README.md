@@ -57,8 +57,6 @@ Conflict: Give medication and Breakfast feeding are both scheduled at 09:00.
 
 ## 🧪 Testing PawPal+
 
-## 🧪 Testing PawPal+
-
 Run the full test suite:
 
 ```bash
@@ -106,14 +104,63 @@ The passing test suite gives me high confidence that the core scheduling, sortin
 | Conflict handling | `detect_conflicts()` | Detects tasks scheduled for the same exact time. |
 | Recurring tasks | `create_next_occurrence()`, `complete_task_and_recur()` | Creates the next daily or weekly task after completion. |
 
+## ✨ Features
+
+PawPal+ includes the following features:
+
+- Owner and pet information entry through the Streamlit UI.
+- Pet care task creation with duration and priority.
+- Priority-based daily schedule generation.
+- Sorting tasks by scheduled time.
+- Filtering tasks by completion status and pet name.
+- Conflict warnings when two tasks share the same scheduled time.
+- Daily and weekly recurring task support.
+- Automated pytest coverage for the main scheduling behaviors.
+
+
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+1. **Enter the pet owner information.**  
+   Type the owner's name into the **Owner Name** field. The application creates an `Owner` object and stores it in the Streamlit session so it persists throughout the session.
 
-1. Enter the pet owner information.
-2. Add two pets and assign care tasks with different priorities and times.
-3. Run `main.py` to generate a daily schedule.
-4. View the prioritized schedule and any detected task conflicts.
-5. Verify the backend logic by running the automated pytest test suite.
+2. **Enter the pet information.**  
+   Provide the pet's name and select its species. When the first task is added, the application creates a `Pet` object and associates it with the owner.
+
+3. **Add pet care tasks with different durations and priorities.**  
+   Enter a task title, specify its duration, and select a priority level (Low, Medium, or High). Repeat this step to add multiple care activities.
+
+4. **Click "Add Task".**  
+   Each task is converted into a `Task` object, linked to the selected pet, and displayed in the **Current Tasks** table. A success message confirms that the task has been added.
+
+5. **Click "Generate Schedule".**  
+   The scheduler retrieves all tasks, sorts them by priority, applies the available-time constraint, and generates a daily schedule. The output displays the selected tasks in priority order.
+
+6. **Review the scheduling results.**  
+   The application displays:
+   - A prioritized daily schedule based on available time.
+   - A table of tasks sorted by their current time values.
+   - A list of incomplete tasks.
+   - Conflict warnings when tasks share the same time value.
+
+   Tasks created through the current Streamlit interface use the default time value of `Anytime`. The command-line demonstration in `main.py` uses specific scheduled times to demonstrate time sorting and conflict detection.
+
+7. **Run `python main.py`.**  
+   The command-line demonstration executes the scheduling logic outside the Streamlit interface. The terminal displays the generated schedule, recurring task behavior, and any detected scheduling conflicts.
+
+8. **Run `python -m pytest`.**  
+   The automated test suite executes all unit tests. The terminal reports the number of collected tests and confirms successful execution with output similar to:
+
+   ```text
+   collected 7 items
+
+   tests/test_pawpal.py .......
+
+   ==================== 7 passed ====================
+   ```
+
+   This verifies that task completion, sorting, filtering, recurring task creation, conflict detection, and schedule generation all behave as expected.
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+
+## Link To a Demo
+https://drive.google.com/file/d/13do3sgf8sUv7sO56CkXmySw5chukUQW9/view?usp=sharing

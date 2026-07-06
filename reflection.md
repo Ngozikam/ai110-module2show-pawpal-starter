@@ -65,11 +65,14 @@ One tradeoff my scheduler makes is that it detects conflicts only when two tasks
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
 - What kinds of prompts or questions were most helpful?
 
+I used AI to brainstorm the class design, generate the Mermaid UML diagram, review my Python skeleton, improve my scheduling logic, and draft test cases. The most helpful prompts were specific prompts that asked for one task at a time, such as how to sort tasks by time, how to detect conflicts, and how to test recurring tasks.
+
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
 - How did you evaluate or verify what the AI suggested?
 
+One AI suggestion I modified was adding extra relationships between Owner and Scheduler. I decided not to make the design too complex because the Scheduler could retrieve tasks through the Owner's pets when needed. I verified AI suggestions by running `python main.py`, checking the Streamlit UI, and running `python -m pytest`.
 ---
 
 ## 4. Testing and Verification
@@ -79,10 +82,14 @@ One tradeoff my scheduler makes is that it detects conflicts only when two tasks
 - What behaviors did you test?
 - Why were these tests important?
 
+I tested task completion, adding tasks to pets, sorting tasks by time, recurring daily tasks, conflict detection, filtering by pet name, and daily plan generation based on available time. These tests were important because they verify the main behavior of the scheduling system.
+
 **b. Confidence**
 
 - How confident are you that your scheduler works correctly?
 - What edge cases would you test next if you had more time?
+
+I am highly confident that the scheduler works for the tested scenarios because all seven pytest tests passed. If I had more time, I would test additional edge cases such as overlapping time ranges, invalid task durations, duplicate pet names, and empty schedules.
 
 ---
 
@@ -92,10 +99,16 @@ One tradeoff my scheduler makes is that it detects conflicts only when two tasks
 
 - What part of this project are you most satisfied with?
 
+The object-oriented design worked well because each class had a clear responsibility. The CLI-first workflow also helped me verify the backend before connecting it to Streamlit.
+
 **b. What you would improve**
 
 - If you had another iteration, what would you improve or redesign?
 
+I would improve the UI by allowing the user to enter exact task times, pet ages, breeds, and available daily minutes. I would also improve conflict detection so it can detect overlapping time ranges instead of only exact time matches.
+
 **c. Key takeaway**
 
 - What is one important thing you learned about designing systems or working with AI on this project?
+
+My key takeaway is that AI is most useful when I remain the lead architect. AI helped with code suggestions, testing ideas, and documentation, but I still had to review the design, verify the logic, and decide which suggestions fit the project requirements.
