@@ -57,25 +57,46 @@ Conflict: Give medication and Breakfast feeding are both scheduled at 09:00.
 
 ## 🧪 Testing PawPal+
 
-```bash
-# Run the full test suite:
-pytest
+## 🧪 Testing PawPal+
 
-# Run with coverage:
+Run the full test suite:
+
+```bash
+python -m pytest
+```
+
+Run with coverage:
+
+```bash
 pytest --cov
 ```
 
-Sample test output:
+### What the tests verify
+
+- Task completion updates the completion status.
+- Adding a task increases the pet's task count.
+- Tasks are sorted correctly by scheduled time.
+- Daily recurring tasks automatically create a new task for the next day.
+- Conflict detection identifies duplicate scheduled times.
+- Filtering returns tasks for the selected pet only.
+- Daily scheduling respects the owner's available time.
+
+### Successful test run
 
 ```text
-platform win32 -- Python 3.13.1, pytest-9.1.1
-collected 2 items
+platform win32 -- Python 3.13.1, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\OWNER\Documents\GitHub\ai110-module2show-pawpal-starter
+plugins: anyio-4.14.1
+collected 7 items
 
-tests\test_pawpal.py ..
+tests\test_pawpal.py .......
 
-==================== 2 passed in 0.05s ====================
+==================== 7 passed in 0.17s ====================
 ```
 
+**Confidence Level:** ⭐⭐⭐⭐⭐ (5/5)
+
+The passing test suite gives me high confidence that the core scheduling, sorting, filtering, recurrence, and conflict detection features work correctly for the tested scenarios.
 ## 📐 Smarter Scheduling
 
 | Feature | Method(s) | Notes |
