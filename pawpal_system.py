@@ -1,5 +1,5 @@
 from dataclasses import asdict, dataclass, field
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from typing import List
 import json
 
@@ -174,21 +174,49 @@ class Scheduler:
     def find_next_available_slot(
         self,
         start_hour: int = 8,
-        end_hour: int = 18
+        end_hour: int = 18,
+        duration_minutes: int = 60,
     ) -> str:
-        """Find the next available hourly time slot."""
+        """Find the next available time slot that fits a task duration."""
 
-        scheduled_times = {
-            task.time
-            for task in self.tasks
-            if task.time != "Anytime"
-        }
+        if duration_minutes <= 0:
+            return "No available slots"
+
+        occupied_intervals = []
+        for task in self.tasks:
+            if task.time == "Anytime":
+                continue
+
+            time_parts = task.time.split(":")
+            if len(time_parts) != 2:
+                continue
+
+            try:
+                hour = int(time_parts[0])
+                minute = int(time_parts[1])
+            except ValueError:
+                continue
+
+            start_time = datetime(2000, 1, 1, hour, minute)
+            end_time = start_time + timedelta(minutes=task.duration_minutes)
+            occupied_intervals.append((start_time, end_time))
 
         for hour in range(start_hour, end_hour + 1):
-            time_slot = f"{hour:02d}:00"
+            candidate_start = datetime(2000, 1, 1, hour, 0)
+            candidate_end = candidate_start + timedelta(minutes=duration_minutes)
+            end_of_day = datetime(2000, 1, 1, end_hour, 0)
 
-            if time_slot not in scheduled_times:
-                return time_slot
+            if candidate_end > end_of_day:
+                continue
+
+            fits = True
+            for occupied_start, occupied_end in occupied_intervals:
+                if not (candidate_end <= occupied_start or candidate_start >= occupied_end):
+                    fits = False
+                    break
+
+            if fits:
+                return candidate_start.strftime("%H:%M")
 
         return "No available slots"
     def filter_by_completion(self, completed: bool = False) -> List[Task]:

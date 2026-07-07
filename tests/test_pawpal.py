@@ -59,6 +59,28 @@ def test_sort_by_time_returns_tasks_in_chronological_order():
     assert sorted_tasks[1].name == "Evening walk"
 
 
+def test_find_next_available_slot_considers_task_duration():
+    scheduler = Scheduler(available_minutes=120)
+
+    existing_task = Task(
+        name="Breakfast feeding",
+        category="Feeding",
+        duration_minutes=90,
+        priority=5,
+        time="08:00",
+    )
+
+    scheduler.add_task(existing_task)
+
+    next_slot = scheduler.find_next_available_slot(
+        start_hour=8,
+        end_hour=12,
+        duration_minutes=60,
+    )
+
+    assert next_slot == "10:00"
+
+
 def test_daily_recurring_task_creates_next_day_task():
     scheduler = Scheduler(available_minutes=60)
 
