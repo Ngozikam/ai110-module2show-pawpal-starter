@@ -117,6 +117,111 @@ PawPal+ includes the following features:
 - Daily and weekly recurring task support.
 - Automated pytest coverage for the main scheduling behaviors.
 
+## 🌟 Stretch Feature: Challenge 3 — Advanced Priority Scheduling
+
+I implemented advanced priority scheduling so PawPal+ can sort tasks by priority first and scheduled time second. This improves the daily plan because urgent pet care tasks appear before lower-priority tasks, while tasks with the same priority are arranged chronologically.
+
+| Feature | Method(s) | Description |
+|---------|-----------|-------------|
+| Priority labels | `priority_label()` | Converts numeric priority values into Low, Medium, or High. |
+| Priority-time sorting | `sort_by_priority_then_time()` | Sorts tasks by priority first, then by scheduled time. |
+
+### CLI Output Example
+
+Running:
+
+```bash
+python main.py
+```
+
+produces the following priority-based schedule:
+
+```text
+Priority-Based Schedule
+-----------------------------------
+08:00 - Morning walk (Biscuit) [High]
+09:00 - Breakfast feeding (Biscuit) [High]
+09:00 - Give medication (Luna) [Medium]
+11:00 - Brush fur (Luna) [Medium]
+```
+
+The CLI output demonstrates that High-priority tasks are listed before Medium-priority tasks. Tasks within the same priority level are then arranged chronologically by scheduled time.
+
+### Automated Test Results
+
+After implementing the advanced priority scheduling feature, the full automated test suite was run using:
+
+```bash
+python -m pytest
+```
+
+The test suite completed successfully:
+
+```text
+platform win32 -- Python 3.13.1, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\OWNER\Documents\GitHub\ai110-module2show-pawpal-starter
+plugins: anyio-4.14.1
+collected 7 items
+
+tests\test_pawpal.py .......
+
+==================== 7 passed in 0.08s ====================
+```
+
+All seven existing tests passed after the advanced priority scheduling feature was implemented, confirming that the new functionality did not break the previously tested PawPal+ scheduling behaviors.
+## 🌟 Stretch Feature: Data Persistence
+
+PawPal+ supports data persistence using JSON serialization. The application can save owner, pet, and task information to a `data.json` file and restore the objects during a later application run.
+
+| Feature | Method | Description |
+|---------|--------|-------------|
+| Save data | `save_to_json()` | Converts the Owner, Pet, and Task objects into JSON-compatible data and saves them to `data.json`. |
+| Load data | `load_from_json()` | Reads `data.json` and reconstructs the Owner, Pet, and Task objects. |
+
+### Persistence Workflow
+
+1. The owner, pets, and tasks are created as Python objects.
+2. `save_to_json()` converts the objects into dictionary data.
+3. Task due dates are converted into ISO-formatted strings.
+4. The data is saved to `data.json`.
+5. `load_from_json()` reads the saved data.
+6. The application reconstructs the Owner, Pet, and Task objects.
+
+### CLI Output
+
+```text
+Data Persistence
+-----------------------------------
+PawPal+ data saved to data.json.
+Loaded owner: Blessing
+Loaded pets: 2
+Loaded tasks: 4
+
+## 🌟 Stretch Feature: Professional UI and Output Formatting
+
+PawPal+ includes professional CLI output formatting to make the application results easier to read and understand.
+
+The `tabulate` library is used to display the priority-based schedule as a structured table. The CLI also uses emojis, section headings, and clear separators to organize scheduling results.
+
+| Formatting Feature | Implementation |
+|--------------------|----------------|
+| Structured CLI table | `tabulate` library |
+| Task information | Time, task, pet, duration, and priority |
+| Section organization | Headings and separators |
+| Visual indicators | Emojis for scheduling features |
+
+### CLI Output Example
+
+The following output demonstrates the organized CLI formatting used to display pet-specific tasks:
+
+```text
+Tasks for Biscuit
+-----------------------------------
+Morning walk
+Breakfast feeding
+```
+
+The professional output formatting was implemented in `main.py`. The `tabulate` library provides structured scheduling tables, while headings, separators, and emojis improve the readability of the command-line interface.
 
 ## 📸 Demo Walkthrough
 

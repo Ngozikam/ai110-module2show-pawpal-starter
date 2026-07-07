@@ -1,6 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import date, timedelta
 from typing import List
+import json
+
 
 
 @dataclass
@@ -24,6 +26,13 @@ class Task:
     def is_high_priority(self) -> bool:
         """Return True if the task is high priority."""
         return self.priority >= 4
+    def priority_label(self) -> str:
+        """Return a readable priority label."""
+        if self.priority >= 5:
+            return "High"
+        if self.priority >= 3:
+            return "Medium"
+        return "Low"
 
     def create_next_occurrence(self):
         """Create the next recurring task based on frequency."""
@@ -87,7 +96,49 @@ class Owner:
         for pet in self.pets:
             all_tasks.extend(pet.get_tasks())
         return all_tasks
+    def save_to_json(self, filename: str = "data.json") -> None:
+        """Save the owner, pets, and tasks to a JSON file."""
+        data = asdict(self)
 
+        # Convert Task due_date objects to strings for JSON serialization
+        for pet in data["pets"]:
+            for task in pet["tasks"]:
+                task["due_date"] = task["due_date"].isoformat()
+
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4)
+
+
+    @classmethod
+    def load_from_json(cls, filename: str = "data.json"):
+        """Load an owner, pets, and tasks from a JSON file."""
+        with open(filename, "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        owner = cls(
+            name=data["name"],
+            preferences=data["preferences"],
+        )
+
+        for pet_data in data["pets"]:
+            pet = Pet(
+                name=pet_data["name"],
+                species=pet_data["species"],
+                breed=pet_data["breed"],
+                age=pet_data["age"],
+            )
+
+            for task_data in pet_data["tasks"]:
+                task_data["due_date"] = date.fromisoformat(
+                    task_data["due_date"]
+                )
+
+                task = Task(**task_data)
+                pet.add_task(task)
+
+            owner.add_pet(pet)
+
+        return owner
 
 @dataclass
 class Scheduler:
@@ -110,7 +161,36 @@ class Scheduler:
             self.tasks,
             key=lambda task: task.time if task.time != "Anytime" else "99:99"
         )
+    def sort_by_priority_then_time(self) -> List[Task]:
+        """Sort tasks by priority first, then by scheduled time."""
+        return sorted(
+            self.tasks,
+            key=lambda task: (
+                -task.priority,
+                task.time if task.time != "Anytime" else "99:99"
+            )
+        )
+    
+    def find_next_available_slot(
+        self,
+        start_hour: int = 8,
+        end_hour: int = 18
+    ) -> str:
+        """Find the next available hourly time slot."""
 
+        scheduled_times = {
+            task.time
+            for task in self.tasks
+            if task.time != "Anytime"
+        }
+
+        for hour in range(start_hour, end_hour + 1):
+            time_slot = f"{hour:02d}:00"
+
+            if time_slot not in scheduled_times:
+                return time_slot
+
+        return "No available slots"
     def filter_by_completion(self, completed: bool = False) -> List[Task]:
         """Filter tasks by completion status."""
         return [task for task in self.tasks if task.completed == completed]
@@ -155,3 +235,4 @@ class Scheduler:
                 seen_times[task.time] = task.name
 
         return conflicts
+    

@@ -1,0 +1,66 @@
+{
+    "name": "Blessing",
+    "preferences": "Prioritize health and morning care.",
+    "pets": [
+        {
+            "name": "Biscuit",
+            "species": "Dog",
+            "breed": "Golden Retriever",
+            "age": 3,
+            "tasks": [
+                {
+                    "name": "Morning walk",
+                    "category": "Exercise",
+                    "duration_minutes": 30,
+                    "priority": 5,
+                    "time": "08:00",
+                    "frequency": "daily",
+                    "completed": true,
+                    "due_date": "2026-07-06",
+                    "pet_name": "Biscuit"
+                },
+                {
+                    "name": "Breakfast feeding",
+                    "category": "Feeding",
+                    "duration_minutes": 10,
+                    "priority": 5,
+                    "time": "09:00",
+                    "frequency": "daily",
+                    "completed": false,
+                    "due_date": "2026-07-06",
+                    "pet_name": "Biscuit"
+                }
+            ]
+        },
+        {
+            "name": "Luna",
+            "species": "Cat",
+            "breed": "Tabby",
+            "age": 2,
+            "tasks": [
+                {
+                    "name": "Brush fur",
+                    "category": "Grooming",
+                    "duration_minutes": 20,
+                    "priority": 3,
+                    "time": "11:00",
+                    "frequency": "weekly",
+                    "completed": false,
+                    "due_date": "2026-07-06",
+                    "pet_name": "Luna"
+                },
+                {
+                    "name": "Give medication",
+                    "category": "Medication",
+                    "duration_minutes": 5,
+                    "priority": 4,
+                    "time": "09:00",
+                    "frequency": "daily",
+                    "completed": false,
+                    "due_date": "2026-07-06",
+                    "pet_name": "Luna"
+                }
+            ]
+        }
+    ]
+}
